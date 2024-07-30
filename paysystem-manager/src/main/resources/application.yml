@@ -1,0 +1,6 @@
+server:
+  port: 9717
+
+#系统业务参数
+isys:
+  jwt-secret: t7w3P8X6472qWc3u #生成jwt的秘钥。 要求每个系统有单独的秘钥管理机制。
