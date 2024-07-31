@@ -1,5 +1,5 @@
 server:
-  port: 9717
+  port: 9217
 
 #系统业务参数
 isys:

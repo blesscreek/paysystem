@@ -12,6 +12,7 @@
         <artifactId>paysystem</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <!-- 项目依赖声明 -->
     <dependencies>
         <dependency>
             <groupId>com.bless</groupId>
@@ -22,29 +23,36 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>  <!-- 删除spring boot默认json映射器： Jackson， 引入fastJSON   -->
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-databind</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.datatype</groupId>
-                    <artifactId>jackson-datatype-jdk8</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.datatype</groupId>
-                    <artifactId>jackson-datatype-jsr310</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.module</groupId>
-                    <artifactId>jackson-module-parameter-names</artifactId>
-                </exclusion>
-                <exclusion>  <!-- hibernate.validator插件一般不使用 -->
-                    <groupId>org.hibernate.validator</groupId>
-                    <artifactId>hibernate-validator</artifactId>
-                </exclusion>
-            </exclusions>
+<!--            <exclusions>-->
+<!--                <exclusion>  &lt;!&ndash; 删除spring boot默认json映射器： Jackson， 引入fastJSON   &ndash;&gt;-->
+<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--                    <artifactId>jackson-databind</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--                    <artifactId>jackson-datatype-jdk8</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--                    <artifactId>jackson-datatype-jsr310</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.module</groupId>-->
+<!--                    <artifactId>jackson-module-parameter-names</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>  &lt;!&ndash; hibernate.validator插件一般不使用 &ndash;&gt;-->
+<!--                    <groupId>org.hibernate.validator</groupId>-->
+<!--                    <artifactId>hibernate-validator</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
+
+        <!-- spring-security  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
 
         <!-- Knife4j  -->
         <dependency>
@@ -52,8 +60,24 @@
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- JWT  -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
+        <!-- 添加redis支持 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
     </dependencies>
+
+
+    <!-- 作为可执行jar -->
     <build>
+        <finalName>${project.artifactId}</finalName>
+
         <!-- resources资源配置项 -->
         <resources>
             <!-- 通用资源文件 -->
@@ -65,7 +89,6 @@
                 <includes><include>**/*.yml</include></includes>
             </resource>
         </resources>
-
 
         <plugins>
             <plugin>
@@ -91,5 +114,6 @@
 
         </plugins>
     </build>
+
 
 </project>
