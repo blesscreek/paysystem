@@ -13,7 +13,7 @@
     </resultMap>
 
     <select id = "selectByLogin" resultMap="BaseResultMap">
-        select a.* from sys_user_auth a left join sys_user u on a.user_if = u.sys_user_id
+        select a.* from sys_user_auth a left join sys_user u on a.user_id = u.sys_user_id
         where a.identity_type = #{identityType} and a.identifier = #{identifier} and a.sys_type = #{sysType}
     </select>
 

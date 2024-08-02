@@ -23,28 +23,28 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-<!--            <exclusions>-->
-<!--                <exclusion>  &lt;!&ndash; 删除spring boot默认json映射器： Jackson， 引入fastJSON   &ndash;&gt;-->
-<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--                    <artifactId>jackson-databind</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>com.fasterxml.jackson.datatype</groupId>-->
-<!--                    <artifactId>jackson-datatype-jdk8</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>com.fasterxml.jackson.datatype</groupId>-->
-<!--                    <artifactId>jackson-datatype-jsr310</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>com.fasterxml.jackson.module</groupId>-->
-<!--                    <artifactId>jackson-module-parameter-names</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>  &lt;!&ndash; hibernate.validator插件一般不使用 &ndash;&gt;-->
-<!--                    <groupId>org.hibernate.validator</groupId>-->
-<!--                    <artifactId>hibernate-validator</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
+            <exclusions>
+                <exclusion>  <!-- 删除spring boot默认json映射器： Jackson， 引入fastJSON   -->
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.datatype</groupId>
+                    <artifactId>jackson-datatype-jdk8</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.datatype</groupId>
+                    <artifactId>jackson-datatype-jsr310</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.module</groupId>
+                    <artifactId>jackson-module-parameter-names</artifactId>
+                </exclusion>
+                <exclusion>  <!-- hibernate.validator插件一般不使用 -->
+                    <groupId>org.hibernate.validator</groupId>
+                    <artifactId>hibernate-validator</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- spring-security  -->

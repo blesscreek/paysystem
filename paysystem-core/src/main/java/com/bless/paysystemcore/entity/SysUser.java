@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.bless.paysystemcore.model.BaseModel;
 import io.swagger.annotations.ApiModel;
@@ -44,7 +45,7 @@ public class SysUser extends BaseModel {
     private String telphone;
 
     @ApiModelProperty(value = "性别 0-未知, 1-男, 2-女")
-    private Integer sex;
+    private Byte sex;
 
     @ApiModelProperty(value = "头像地址")
     private String avatarUrl;
@@ -53,10 +54,10 @@ public class SysUser extends BaseModel {
     private String userNo;
 
     @ApiModelProperty(value = "是否超管（超管拥有全部权限） 0-否 1-是")
-    private Integer isAdmin;
+    private Byte isAdmin;
 
     @ApiModelProperty(value = "状态 0-停用 1-启用")
-    private Integer state;
+    private Byte state;
 
     @ApiModelProperty(value = "所属系统： MGR-运营平台, MCH-商户中心")
     private String sysType;
@@ -65,10 +66,10 @@ public class SysUser extends BaseModel {
     private String belongInfoId;
 
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
     @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updatedAt;
+    private Date updatedAt;
 
 
 }

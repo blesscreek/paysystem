@@ -43,13 +43,13 @@ spring:
       # 配置监控统计拦截的filters，去掉后监控界面sql无法统计 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       filters: stat,wall
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-#  cache:
-#    type: redis
-#  redis:
-#    host: 127.0.0.1
-#    port: 6379
-#    timeout: 1000
-#    password:
+  cache:
+    type: redis
+  redis:
+    host: 123.60.15.140
+    port: 6379
+    timeout: 1000
+    password:
 #
   # #activeMQ配置 ( 注意： activeMQ配置项需在spring的下级 )
 #  activemq:
