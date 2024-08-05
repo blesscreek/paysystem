@@ -11,6 +11,28 @@ import java.util.Map;
  */
 
 public class CS {
+    /**
+     * 账号类型:1-服务商 2-商户 3-商户应用
+     */
+    public static final byte INFO_TYPE_ISV = 1;
+    public static final byte INFO_TYPE_MCH = 2;
+    public static final byte INFO_TYPE_MCH_APP = 3;
+    /** 默认密码 */
+    public static final String DEFAULT_PWD = "bless123";
+
+    /**
+     * 性别 1- 男， 2-女
+     */
+    public static final byte SEX_UNKNOWN = 0;
+    public static final byte SEX_MALE = 1;
+    public static final byte SEX_FEMALE = 2;
+    /**
+     * 商户类型:1-普通商户 2-特约商户
+     */
+    public static final byte MCH_TYPE_NORMAL = 1;
+    public static final byte MCH_TYPE_ISVSUB = 2;
+    //登录图形验证码缓存时间，单位：s
+    public static final int VERCODE_CACHE_TIME = 60 * 60 * 24;
     /** ！！不同系统请放置不同的redis库 ！！ **/
     /** 缓存key: 当前用户所有用户的token集合  example: TOKEN_1001_HcNheNDqHzhTIrT0lUXikm7xU5XY4Q */
     public static final String CACHE_KEY_TOKEN = "TOKEN_%s_%s";
@@ -33,7 +55,7 @@ public class CS {
     //access_token 名称
     public static final String ACCESS_TOKEN_NAME = "iToken";
 
-    public static final long TOKEN_TIME = 60 * 60 * 2; //单位：s,  两小时
+    public static final long TOKEN_TIME = 60 * 60 * 24; //单位：s,  两小时
     //菜单类型
     public interface ENT_TYPE{
 

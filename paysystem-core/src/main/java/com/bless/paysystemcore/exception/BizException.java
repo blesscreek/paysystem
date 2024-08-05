@@ -2,6 +2,7 @@ package com.bless.paysystemcore.exception;
 
 import com.bless.paysystemcore.constants.ApiCodeEnum;
 import com.bless.paysystemcore.model.ApiRes;
+import lombok.Getter;
 
 /**
  * @Author bless
@@ -9,7 +10,7 @@ import com.bless.paysystemcore.model.ApiRes;
  * @Description 自定义业务异常
  * @Date 2024-07-30 21:53
  */
-
+@Getter
 public class BizException extends RuntimeException{
     private static final long serialVersionUID = 1L;
 

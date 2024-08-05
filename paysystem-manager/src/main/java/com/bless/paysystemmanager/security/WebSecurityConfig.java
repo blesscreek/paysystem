@@ -129,6 +129,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .antMatchers(
                         "/api/anon/**", //匿名访问接口
+//                        "/api/mch/**",//测试
                         "/swagger-resources/**","/v2/api-docs/**" // swagger相关
                 );
     }

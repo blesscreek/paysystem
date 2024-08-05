@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.bless.paysystemcore.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,6 +29,9 @@ import lombok.experimental.Accessors;
 @TableName("sys_user")
 @ApiModel(value="SysUser对象", description="系统用户表")
 public class SysUser extends BaseModel {
+    public static final LambdaQueryWrapper<SysUser> gw() {
+        return new LambdaQueryWrapper<>();
+    }
 
     private static final long serialVersionUID = 1L;
 

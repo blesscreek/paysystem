@@ -18,7 +18,8 @@ public class CommonCtrl extends AbstractCtrl {
     protected SystemYmlConfig mainConfig;
     /** 获取当前用户ID */
     protected MyUserDetails getCurrentUser() {
-        return (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        MyUserDetails principal = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal;
     }
 
     /**

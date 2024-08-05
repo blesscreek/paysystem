@@ -35,7 +35,7 @@ public class SysUserAuth implements Serializable {
     private Long userId;
 
     @ApiModelProperty(value = "登录类型  1-登录账号 2-手机号 3-邮箱  10-微信  11-QQ 12-支付宝 13-微博")
-    private Integer identityType;
+    private Byte identityType;
 
     @ApiModelProperty(value = "认证标识 ( 用户名 | open_id )")
     private String identifier;
