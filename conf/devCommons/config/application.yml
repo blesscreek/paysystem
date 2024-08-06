@@ -23,7 +23,7 @@ spring:
     # yml填写url连接串， 无需将&符号进行转义
     url: jdbc:mysql://123.60.15.140:3306/paysystem?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: jeepaydb123456
+    password: 123456
     druid:
       # 连接池配置项
       initial-size: 5 #初始化时建立物理连接的个数
@@ -61,14 +61,14 @@ spring:
 #      enabled: true
 #      max-connections: 10
 #      idle-timeout: 30000  # 空闲的连接过期时间，默认为30秒
-  #
-  #  #rabbitmq配置  ( 注意： rabbitmq配置项需在spring的下级 )
-  #  rabbitmq:
-  #    addresses: 127.0.0.1:5672
-  #    username: guest
-  #    password: guest
-  #    dynamic: true
-  #    virtual-host: /
+
+  #rabbitmq配置  ( 注意： rabbitmq配置项需在spring的下级 )
+  rabbitmq:
+    addresses: 123.60.15.140:5672
+    username: guest
+    password: guest
+    dynamic: true
+    virtual-host: /
 
   ## rocketmq配置 ( 注意：rocketmq配置项请放置到根目录， 不是spring的二级配置！  )
   #rocketmq:
@@ -89,7 +89,7 @@ spring:
 logging:
   level:
     root: info   #主日志级别
-    com.jeequan.jeepay: debug   #该项目日志级别，当需要打印sql时请开启为debug
+    com.bless: debug   #该项目日志级别，当需要打印sql时请开启为debug
   path: ./logs  #日志存放地址
 
 # knife4j APIDOC文档
@@ -122,5 +122,5 @@ isys:
       access-key-secret: SECRET_SECRET_SECRET  #AccessKeySecret
 
   mq:
-    vender: activeMQ  #  切换MQ厂商， 支持：【 activeMQ  rabbitMQ  rocketMQ  aliYunRocketMQ 】， 需正确配置 【对应的yml参数】 和 【jeepay-components-mq项目下pom.xml中的依赖包】。
+    vender: rabbitMQ  #  切换MQ厂商， 支持：【 activeMQ  rabbitMQ  rocketMQ  aliYunRocketMQ 】， 需正确配置 【对应的yml参数】 和 【jeepay-components-mq项目下pom.xml中的依赖包】。
 

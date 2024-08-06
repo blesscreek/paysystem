@@ -18,6 +18,10 @@
             <groupId>com.bless</groupId>
             <artifactId>paysystem-service</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.bless</groupId>
+            <artifactId>paysystem-components-mq</artifactId>
+        </dependency>
 
         <!-- 依赖 sping-boot-web -->
         <dependency>
@@ -70,6 +74,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
+        <!-- spring-aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
 
     </dependencies>
 

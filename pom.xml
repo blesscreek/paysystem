@@ -19,6 +19,7 @@
         <module>paysystem-manager</module><!--运营平台管理端-->
         <module>paysystem-core</module>
         <module>paysystem-service</module>
+        <module>paysystem-components</module>
     </modules>
 
     <properties>
@@ -43,6 +44,12 @@
             <dependency>
                 <groupId>com.bless</groupId>
                 <artifactId>paysystem-service</artifactId>
+                <version>${isys.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.bless</groupId>
+                <artifactId>paysystem-components-mq</artifactId>
                 <version>${isys.version}</version>
             </dependency>
 

@@ -1,5 +1,9 @@
 package com.bless.paysystemmanager.ctrl.merchant;
 
+import com.bless.paysystemcomponentsmq.model.ResetIsvMchAppInfoConfigMQ;
+import com.bless.paysystemcomponentsmq.vender.IMQSender;
+import com.bless.paysystemcore.aop.MethodLog;
+import com.bless.paysystemcore.constants.ApiCodeEnum;
 import com.bless.paysystemcore.constants.CS;
 import com.bless.paysystemcore.entity.MchApp;
 import com.bless.paysystemcore.entity.MchInfo;
@@ -7,6 +11,7 @@ import com.bless.paysystemcore.entity.PayInterfaceConfig;
 import com.bless.paysystemcore.entity.PayInterfaceDefine;
 import com.bless.paysystemcore.model.ApiRes;
 import com.bless.paysystemcore.model.params.NormalMchParams;
+import com.bless.paysystemcore.utils.StringKit;
 import com.bless.paysystemmanager.ctrl.CommonCtrl;
 import com.bless.paysystemservice.impl.MchAppService;
 import com.bless.paysystemservice.impl.MchInfoService;
@@ -18,10 +23,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -42,6 +44,8 @@ public class MchPayInterfaceConfigController extends CommonCtrl {
     private MchInfoService mchInfoService;
     @Autowired
     private PayInterfaceConfigService payInterfaceConfigService;
+    @Autowired
+    private IMQSender mqSender;
 
     @ApiOperation("查询应用支付接口配置列表")
     @ApiImplicitParams({
@@ -86,6 +90,63 @@ public class MchPayInterfaceConfigController extends CommonCtrl {
         }
         return ApiRes.ok(payInterfaceConfig);
     }
+    @ApiOperation("更新应用支付参数")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "iToken", value = "用户身份凭证", required = true, paramType = "header"),
+            @ApiImplicitParam(name = "infoId", value = "应用AppId", required = true),
+            @ApiImplicitParam(name = "ifCode", value = "接口类型代码", required = true)
+    })
+    @PreAuthorize("hasAuthority('ENT_MCH_PAY_CONFIG_ADD')")
+    @PostMapping
+    @MethodLog(remark = "更新应用支付参数")
+    public ApiRes saveOrUpdate() {
+        String infoId = getValStringRequired("infoId");
+        String ifCode = getValStringRequired("ifCode");
+        MchApp mchApp = mchAppService.getById(infoId);
+        if (mchApp == null || mchApp.getState() != CS.YES) {
+            return ApiRes.fail(ApiCodeEnum.SYS_OPERATION_FAIL_SELETE);
+        }
+        PayInterfaceConfig payInterfaceConfig = getObject(PayInterfaceConfig.class);
+        payInterfaceConfig.setInfoType(CS.INFO_TYPE_MCH_APP);
+        payInterfaceConfig.setInfoId(infoId);
+
+        //存入真实费率
+        if (payInterfaceConfig.getIfRate() != null) {
+            payInterfaceConfig.setIfRate(payInterfaceConfig.getIfRate().divide(new BigDecimal("100"),
+                    6, BigDecimal.ROUND_HALF_UP));
+        }
+        //添加更新者信息
+        Long userId = getCurrentUser().getSysUser().getSysUserId();
+        String realName = getCurrentUser().getSysUser().getRealname();
+        payInterfaceConfig.setUpdatedUid(userId);
+        payInterfaceConfig.setUpdatedBy(realName);
+
+        //根据 商户号、接口类型 获取商户参数配置
+        PayInterfaceConfig dbRecoed = payInterfaceConfigService.getByInfoIdAndIfCode(CS.INFO_TYPE_MCH_APP, infoId, ifCode);
+
+        if (dbRecoed != null) {
+            payInterfaceConfig.setId(dbRecoed.getId());
+
+            //合并支付参数
+            payInterfaceConfig.setIfParams(StringKit.marge(dbRecoed.getIfParams(), payInterfaceConfig.getIfParams()));
+
+        } else {
+            payInterfaceConfig.setCreatedUid(userId);
+            payInterfaceConfig.setCreatedBy(realName);
+        }
+
+        boolean result = payInterfaceConfigService.saveOrUpdate(payInterfaceConfig);
+
+        if (!result) {
+            return ApiRes.fail(ApiCodeEnum.SYSTEM_ERROR, "配置失败");
+        }
+
+        mqSender.send(ResetIsvMchAppInfoConfigMQ.build(ResetIsvMchAppInfoConfigMQ.RESET_TYPE_MCH_APP,null,mchApp.getMchNo(), infoId));
+        return ApiRes.ok();
+
+    }
+
+
 
 
 

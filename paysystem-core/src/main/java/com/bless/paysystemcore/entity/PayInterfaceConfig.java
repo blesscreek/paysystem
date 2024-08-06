@@ -41,7 +41,7 @@ public class PayInterfaceConfig extends BaseModel implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "账号类型:1-服务商 2-商户 3-商户应用")
-    private Integer infoType;
+    private Byte infoType;
 
     @ApiModelProperty(value = "服务商号/商户号/应用ID")
     private String infoId;
