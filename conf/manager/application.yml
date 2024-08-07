@@ -10,7 +10,7 @@
 #
 #################################
 server:
-  port: 8217
+  port: 9217
 spring:
   datasource:
     # yml填写url连接串， 无需将&符号进行转义
