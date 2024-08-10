@@ -1,5 +1,6 @@
 package com.bless.paysystemcore.utils;
 
+import cn.hutool.crypto.SecureUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.UnsupportedEncodingException;
@@ -18,6 +19,16 @@ import java.util.Map;
 
 @Slf4j
 public class Kit {
+    public static byte[] AES_KEY = "4ChT08phkz59hquD795X7w==".getBytes();
+
+    /** 加密 **/
+    public static String aesEncode(String str){
+        return SecureUtil.aes(Kit.AES_KEY).encryptHex(str);
+    }
+
+    public static String aesDecode(String str){
+        return SecureUtil.aes(Kit.AES_KEY).decryptStr(str);
+    }
     private static String encodingCharset = "UTF-8";
 
     /**

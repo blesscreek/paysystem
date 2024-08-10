@@ -20,6 +20,7 @@
         <module>paysystem-core</module>
         <module>paysystem-service</module>
         <module>paysystem-components</module>
+        <module>paysystem-merchant</module>
     </modules>
 
     <properties>
@@ -27,6 +28,7 @@
         <projectRootDir>${basedir}</projectRootDir>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jeepay.sdk.java.version>1.3.0</jeepay.sdk.java.version>
 
         <mybatis.plus.starter.version>3.4.2</mybatis.plus.starter.version>  <!-- mybatis plus -->
         <fastjson.version>1.2.83</fastjson.version> <!-- fastjson -->
@@ -88,6 +90,13 @@
                 <artifactId>jjwt</artifactId>
                 <version>${jjwt.version}</version>
             </dependency>
+            <!-- jeepay sdk 支付工具包 -->
+            <dependency>
+                <groupId>com.jeequan</groupId>
+                <artifactId>jeepay-sdk-java</artifactId>
+                <version>${jeepay.sdk.java.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,7 +19,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author bless
- * @since 2024-07-29
+ * @since 2024-08-10
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -25,6 +27,12 @@ import lombok.experimental.Accessors;
 @TableName("sys_config")
 @ApiModel(value="SysConfig对象", description="系统配置表")
 public class SysConfig implements Serializable {
+
+    //gw
+    public static final LambdaQueryWrapper<SysConfig> gw(){
+        return new LambdaQueryWrapper<>();
+    }
+
 
     private static final long serialVersionUID = 1L;
 

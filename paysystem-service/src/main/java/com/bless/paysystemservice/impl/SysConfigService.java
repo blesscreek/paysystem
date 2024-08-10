@@ -1,15 +1,22 @@
 package com.bless.paysystemservice.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bless.paysystemcore.entity.SysConfig;
+import com.bless.paysystemcore.model.DBApplicationConfig;
 import com.bless.paysystemcore.service.ISysConfigService;
 import com.bless.paysystemservice.mapper.SysConfigMapper;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author bless
  * @Version 1.0
- * @Description
+ * @Description 系统配置表 服务实现类
  * @Date 2024-07-29 20:03
  */
 @Service
@@ -20,5 +27,66 @@ public class SysConfigService extends ServiceImpl<SysConfigMapper, SysConfig> im
      * false:直接查询DB
      */
     public static Boolean IS_USE_CACHE = false;
+
+    @Autowired
+    private SysConfigService sysConfigService;
+
+    /** 数据库application配置参数 **/
+    private static MutablePair<String, DBApplicationConfig> APPLICATION_CONFIG = new MutablePair<>("applicationConfig", null);
+    public synchronized void initDBConfig(String groupKey) {
+
+        // 若当前系统不缓存，则直接返回
+        if(!IS_USE_CACHE){
+            return;
+        }
+
+        if(APPLICATION_CONFIG.getLeft().equalsIgnoreCase(groupKey)){
+            APPLICATION_CONFIG.right = this.selectByGroupKey(groupKey).toJavaObject(DBApplicationConfig.class);
+        }
+    }
+    /** 获取实际的数据 **/
+    @Override
+    public DBApplicationConfig getDBApplicationConfig() {
+
+        // 查询DB
+        if(!IS_USE_CACHE){
+            return this.selectByGroupKey(APPLICATION_CONFIG.getLeft()).toJavaObject(DBApplicationConfig.class);
+        }
+
+        // 缓存数据
+        if(APPLICATION_CONFIG.getRight() == null ){
+            initDBConfig(APPLICATION_CONFIG.getLeft());
+        }
+        return APPLICATION_CONFIG.right;
+    }
+
+    /** 根据分组查询，并返回JSON对象格式的数据 **/
+    public JSONObject selectByGroupKey(String groupKey){
+
+        JSONObject result = new JSONObject();
+        list(SysConfig.gw().select(SysConfig::getConfigKey, SysConfig::getConfigVal).eq(SysConfig::getGroupKey, groupKey))
+                .stream().forEach(item -> result.put(item.getConfigKey(), item.getConfigVal()));
+        return result;
+    }
+
+    public int updateByConfigKey(Map<String, String> updateMap) {
+        int count = 0;
+        Set<String> set = updateMap.keySet();
+        for(String k : set) {
+            SysConfig sysConfig = new SysConfig();
+            sysConfig.setConfigKey(k);
+            sysConfig.setConfigVal(updateMap.get(k));
+            boolean update = sysConfigService.saveOrUpdate(sysConfig);
+            if (update) {
+                count ++;
+            }
+        }
+        return count;
+    }
+
+
+
+
+
 
 }
