@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bless.paysystemcore.constants.CS;
 import com.bless.paysystemcore.entity.MchPayPassage;
+import com.bless.paysystemcore.entity.PayInterfaceDefine;
 import com.bless.paysystemcore.exception.BizException;
 import com.bless.paysystemservice.mapper.MchPayPassageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,4 +80,37 @@ public class MchPayPassageService extends ServiceImpl<MchPayPassageMapper, MchPa
             }
         }
     }
+    /** 根据应用ID 和 支付方式， 查询出商户可用的支付接口 **/
+    public MchPayPassage findMchPayPassage(String mchNo, String appId, String wayCode){
+
+        List<MchPayPassage> list = list(MchPayPassage.gw()
+                .eq(MchPayPassage::getMchNo, mchNo)
+                .eq(MchPayPassage::getAppId, appId)
+                .eq(MchPayPassage::getState, CS.YES)
+                .eq(MchPayPassage::getWayCode, wayCode)
+        );
+
+        if (list.isEmpty()) {
+            return null;
+        }else { // 返回一个可用通道
+
+            HashMap<String, MchPayPassage> mchPayPassageMap = new HashMap<>();
+
+            for (MchPayPassage mchPayPassage:list) {
+                mchPayPassageMap.put(mchPayPassage.getIfCode(), mchPayPassage);
+            }
+            // 查询ifCode所有接口
+            PayInterfaceDefine interfaceDefine = payInterfaceDefineService
+                    .getOne(PayInterfaceDefine.gw()
+                            .select(PayInterfaceDefine::getIfCode, PayInterfaceDefine::getState)
+                            .eq(PayInterfaceDefine::getState, CS.YES)
+                            .in(PayInterfaceDefine::getIfCode, mchPayPassageMap.keySet()), false);
+
+            if (interfaceDefine != null) {
+                return mchPayPassageMap.get(interfaceDefine.getIfCode());
+            }
+        }
+        return null;
+    }
+
 }

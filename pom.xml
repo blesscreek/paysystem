@@ -21,6 +21,7 @@
         <module>paysystem-service</module>
         <module>paysystem-components</module>
         <module>paysystem-merchant</module>
+        <module>paysystem-payment</module>
     </modules>
 
     <properties>
@@ -96,7 +97,12 @@
                 <artifactId>jeepay-sdk-java</artifactId>
                 <version>${jeepay.sdk.java.version}</version>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
+            <dependency>
+                <groupId>com.alipay.sdk</groupId>
+                <artifactId>alipay-sdk-java</artifactId>
+                <version>4.38.61.ALL</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

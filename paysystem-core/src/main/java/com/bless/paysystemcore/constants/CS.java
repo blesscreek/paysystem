@@ -11,6 +11,49 @@ import java.util.Map;
  */
 
 public class CS {
+
+    //接口类型
+    public interface IF_CODE{
+
+        String ALIPAY = "alipay";   // 支付宝官方支付
+        String WXPAY = "wxpay";     // 微信官方支付
+        String YSFPAY = "ysfpay";   // 云闪付开放平台
+        String XXPAY = "xxpay";     // 小新支付
+        String PPPAY = "pppay";     // Paypal 支付
+        String PLSPAY = "plspay";     // 计全支付plus
+    }
+
+    //支付数据包 类型
+    public interface PAY_DATA_TYPE {
+        String PAY_URL = "payurl";  //跳转链接的方式  redirectUrl
+        String FORM = "form";  //表单提交
+        String WX_APP = "wxapp";  //微信app参数
+        String ALI_APP = "aliapp";  //支付宝app参数
+        String YSF_APP = "ysfapp";  //云闪付app参数
+        String CODE_URL = "codeUrl";  //二维码URL
+        String CODE_IMG_URL = "codeImgUrl";  //二维码图片显示URL
+        String NONE = "none";  //无参数
+//        String QR_CONTENT = "qrContent";  //二维码实际内容
+    }
+
+    //支付方式代码
+    public interface PAY_WAY_CODE{
+
+        // 特殊支付方式
+        String QR_CASHIER = "QR_CASHIER"; //  ( 通过二维码跳转到收银台完成支付， 已集成获取用户ID的实现。  )
+        String AUTO_BAR = "AUTO_BAR"; // 条码聚合支付（自动分类条码类型）
+        String ALI_BAR = "ALI_BAR";  //支付宝条码支付
+        String ALI_QR = "ALI_QR";  //支付宝 二维码付款
+        String ALI_OC = "ALI_OC";  //支付宝 订单码支付
+
+
+        String WX_JSAPI = "WX_JSAPI";  //微信jsapi支付
+        String WX_LITE = "WX_LITE";  //微信小程序支付
+        String WX_BAR = "WX_BAR";  //微信条码支付
+        String WX_H5 = "WX_H5";  //微信H5支付
+        String WX_NATIVE = "WX_NATIVE";  //微信扫码支付
+
+    }
     /**
      * 账号类型:1-服务商 2-商户 3-商户应用
      */

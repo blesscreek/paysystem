@@ -7,66 +7,120 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>paysystem-payment</name>
     <description>paysystem-payment</description>
+
+    <parent>
+        <groupId>com.bless</groupId>
+        <artifactId>paysystem</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <!-- 项目属性 -->
     <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.version>2.6.13</spring-boot.version>
+        <projectRootDir>${basedir}/../</projectRootDir>
     </properties>
+
     <dependencies>
         <dependency>
+            <groupId>com.bless</groupId>
+            <artifactId>paysystem-service</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bless</groupId>
+            <artifactId>paysystem-components-mq</artifactId>
+        </dependency>
+        <!-- 依赖 sping-boot-web -->
+        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
+<!--            <exclusions>-->
+<!--                <exclusion>  &lt;!&ndash; 删除spring boot默认json映射器： Jackson， 引入fastJSON   &ndash;&gt;-->
+<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--                    <artifactId>jackson-databind</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--                    <artifactId>jackson-datatype-jdk8</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--                    <artifactId>jackson-datatype-jsr310</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.fasterxml.jackson.module</groupId>-->
+<!--                    <artifactId>jackson-module-parameter-names</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+        </dependency>
+
+        <!-- 添加redis支持 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- Knife4j  -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <!-- hibernate.validator插件 -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alipay.sdk/alipay-sdk-java -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
         </dependency>
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
+    <!-- 作为可执行jar -->
     <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <!-- resources资源配置项 -->
+        <resources>
+            <!-- 通用资源文件 -->
+            <resource><directory>src/main/resources</directory><includes><include>**/*.*</include></includes></resource>
+
+            <!-- 放置通用配置yml文件， 开发时仅配置一套参数即可。   实际生产环境下应在每个项目下 与jar同级目录下新建application.yml覆写对应参数。  -->
+            <resource>
+                <directory>../conf/devCommons</directory>
+                <includes><include>**/*.yml</include></includes>
+            </resource>
+        </resources>
+
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.bless.paysystempayment.PaysystemPaymentApplication</mainClass>
-                    <skip>true</skip>
+                    <includeSystemScope>true</includeSystemScope>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>repackage</id>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <configuration>
+                    <container>
+                        <entrypoint>
+                            sh,-c,java $JVM_OPTS -cp $( cat /app/jib-classpath-file ) $( cat /app/jib-main-class-file ) $JAVA_ARGS
+                        </entrypoint>
+                    </container>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
 
 </project>

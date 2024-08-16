@@ -40,4 +40,8 @@ public class MchAppService extends ServiceImpl<MchAppMapper, MchApp> {
         return pages;
 
     }
+    public MchApp getOneByMch(String mchNo, String appId){
+        return getOne(MchApp.gw().eq(MchApp::getMchNo, mchNo).eq(MchApp::getAppId, appId));
+    }
+
 }
